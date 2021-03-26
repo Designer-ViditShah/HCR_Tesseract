@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def scaleImage(image):
+def scaleImage(image,a,b):
     """
     Image scaling can be achieved using the open cv resize function
     If you don't specify a size (by using None), then it expects the X and Y scaling factors.
@@ -14,7 +14,7 @@ def scaleImage(image):
     :param image: input image
     :return: scaled image
     """
-    image = cv2.resize(image, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_LINEAR)
+    image = cv2.resize(image, None, fx=a, fy=b, interpolation=cv2.INTER_LINEAR)
     return image
 
 
@@ -47,9 +47,16 @@ def morphImage(image):
     :param image:
     :return:
     """
-    kernel_ = np.ones((5,5),np.uint8)
-    image = cv2.erode(image, kernel_, iterations=1)
-    image = cv2.dilate(image, kernel_, iterations=1)
+    kernel_1 = np.ones((7,7),np.uint8)
+    kernel_2 = np.ones((3,3), np.uint8)
+    image = cv2.erode(image, kernel_1, iterations=1)
+    image = cv2.dilate(image, kernel_1, iterations=1)
+
+    return image
+
+
+def paddingLeft(image):
+    image = cv2.copyMakeBorder(image,10,10,10,10,cv2.BORDER_CONSTANT,value=(255,0,0))
     return image
 
 
@@ -61,8 +68,13 @@ def preprocessing(image):
     """
 
     image = np.array(image)
-    image = scaleImage(image)
+    image = scaleImage(image, 1.2, 1.1)
     image = binarizeImage(image)
     # image = gaussianFilter(image)
     image = morphImage(image)
+    # image = scaleImage(image, 0.8, 1)
+    # image = paddingLeft(image)
+    cv2.imshow('frame1', image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     return image

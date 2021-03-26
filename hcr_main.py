@@ -1,9 +1,4 @@
 import pytesseract
-import cv2
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import Dataset.IAM_Line_Dataset
 import os
 from PIL import Image
 from preprocessing import preprocessing as pp
@@ -30,7 +25,7 @@ if __name__ == '__main__':
     print("Convert Image To Text Started...")
     pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract"
     print("tesseract ocr execution starts")
-    path = os.path.join(os.path.join(os.getcwd(),"Dataset"), "IAM_Line_Dataset")
+    path = os.path.join(os.path.join(os.getcwd(),"Dataset"), "IAM_Sentence_Dataset")
     print(path)
     tesseract_string_values = []
     cnn_generated_string = []
